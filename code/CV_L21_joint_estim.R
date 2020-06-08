@@ -9,8 +9,6 @@
 # lambdaB--> optimal tuning parameter for the regression coefficient matrix.
 # min.error--> minimum average cross validation error for optimal parameters.
 # avg.error--> average cross validation error across all folds.
-
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                    #start
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
