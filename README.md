@@ -39,18 +39,18 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 * coeffRV.R uses the coeffRV function from [FactoMineR R package](https://CRAN.R-project.org/package=FactoMineR) and is used to compute the RV coefficient
 
-Depends: R (>= 3.6)
+By default, all cross-validation scripts use 5-folds
 
 Imports: glmnet, kernlab, MRCE, BGLR, FactoMineR
-
-Licence: GPL-3
-
-By default, all cross-validation scripts use 5-folds
 
 Abreviations
 
 CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, 
 LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
+
+Example run with Brassica napus data set.
+
+Licence: GPL-3
 
 For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de) 
