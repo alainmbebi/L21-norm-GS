@@ -9,17 +9,16 @@
 # avg.error--> average cross validation error across all folds.
 
 
-CV_L21_featselect = function(Y, X, lam, kfold=5) {
+CV_L21_featselect <- function(Y, X, lam, kfold=5) {
   
   lam = sort(lam)
   # initialize
   CV_errors = array(0, c(length(lam), kfold))
   
-  # designate folds and shuffle -- ensures randomized folds
   n = nrow(Y)
   ind = sample(n)
   
-  # parse data into folds and perform CV
+  # parsing data into folds and performing CV
   
   for (k in 1:kfold) {
     
