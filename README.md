@@ -17,6 +17,13 @@ MOR.R is a script to run multiple output regression [(He et all. 2016)](https://
 
 CV_MOR is a script to run K-folds cross-validation to select the tuning parameters to be used in MOR.R
 
+MTGS.mlasso
+
+MTGS.kmlasso
+
+coeffRV.R
+
+
 By default the all cross-validation scripts uses 5-folds
 
 gwas.r is a script to run GWAS with a mixed model
