@@ -35,12 +35,16 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 2-3- trueB_n50p100s30rho.9 (list of the true regression coefficient matrices B for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
 
+3- The folder data contains real-world data sets, Brassica napus and wheat from MTGS and BLRG packages respectively.
 
 * coeffRV.R uses the coeffRV function from [FactoMineR R package](https://CRAN.R-project.org/package=FactoMineR) and is used to compute the RV coefficient
 
 Depends: R (>= 3.6)
+
 Imports: glmnet, kernlab, MRCE, BGLR, FactoMineR
+
 Licence: GPL-3
+
 By default, all cross-validation scripts use 5-folds
 
 Abreviations
