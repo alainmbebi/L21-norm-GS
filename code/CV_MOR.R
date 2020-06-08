@@ -1,4 +1,15 @@
-#function for cross validation in the MOR
+# Function to implement Cross Validation for MOR
+# Y nxs response matrix
+# X nxp predictor matrix 
+# lam vector of positive tuning parameters, default grid is 2^seq(-3, 3, 1).
+# kfold is the number of folds for cross validation.
+# The returned list includes
+# lambda1, lambda2, lambda3 and lambda4 --> optimal tuning parameters.
+# min.error--> minimum average cross validation error for optimal parameters.
+# avg.error--> average cross validation error across all folds.
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #start
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 CV_MOR <- function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
   lambda1 = sort(lambda1)
@@ -19,18 +30,10 @@ CV_MOR <- function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
     # training set
     Y.train = Y[-leave.out,]
     X.train = X[-leave.out,]
-    #this centers the data uncomment if needed
-    #Y_bar = apply(Y.train, 2, mean)
-    #X_bar = apply(X.train, 2, mean)
-    #Y.train = scale(Y.train, center = Y_bar, scale = FALSE)
-    #X.train = scale(X.train, center = X_bar, scale = FALSE)
     
     # validation set
     Y.valid = Y[leave.out, ]
     X.valid = X[leave.out, ]
-    #this centers the data uncomment if needed
-    #Y.valid = scale(Y.valid, center = Y_bar, scale = FALSE)
-    #X.valid = scale(X.valid, center = X_bar, scale = FALSE)
     
     # loop over all tuning parameters
     
@@ -44,36 +47,30 @@ CV_MOR <- function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
               B_hat.train = Estimes.train[[1]]
               invOmega_hat_train =  Estimes.train[[2]]
               invSigma_hat_train =  Estimes.train[[3]]
-              #for (s in 1:dimll) {
               listindex[[m]]=c(lambda1[i], lambda2[j], lambda3[t], lambda4[l])
-              #CV_errors[m,k]= CV_errors[m,k] + mean((Y.valid-X.valid%*%B_hat.train)^2)
               CV_errors[m]= CV_errors[m] + mean((Y.valid-X.valid%*%B_hat.train)^2)
             }
-          }
-          
-          #}
-          
+          } 
         }
       }
-      #CV_errors[m]= CV_errors[m] + mean((Y.valid-X.valid%*%B_hat.train)^2)
-    }
-    
+    } 
   }
   
   # determine optimal tuning parameters
   AVG = mean(CV_errors) 
-  #AVG = mean(CV_errors)
   bestindexAVG=which.min(CV_errors)
-  #error = lapply(AVG, min) 
   error = min(CV_errors)
   opt = listindex[[bestindexAVG]]
   opt.lam1 = opt[1]
   opt.lam2 = opt[2]
   opt.lam3 = opt[3]
   opt.lam4 = opt[4]
-  
-  
-  # return best lambdaO, lambdaB and other meaningful values
+ 
+  # return best lambda1, lambda2, lambda3, lambda4 and other meaningful values
   return(list(lambda1=opt.lam1, lambda2=opt.lam2, lambda3=opt.lam3, lambda4=opt.lam4, min.error = error, avg.error = AVG, cv.err=CV_errors)) 
   
 }
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #end
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
