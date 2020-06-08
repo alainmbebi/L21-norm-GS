@@ -37,20 +37,15 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 3- The folder data contains Brassica napus and wheat data sets from [MTGS](https://CRAN.R-project.org/package=MTGS) and [BLRG](https://CRAN.R-project.org/package=BGLR ) packages respectively.
 
-* coeffRV.R uses the coeffRV function from [FactoMineR R package](https://CRAN.R-project.org/package=FactoMineR) and is used to compute the RV coefficient
+4- The file Example_run.R is an implementation example of all models/functions previously discussed. 
 
-By default, all cross-validation scripts use 5-folds
-
-Imports: glmnet, kernlab, MRCE, BGLR, FactoMineR
-
-Abreviations
-
-CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, 
-LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
+5- Notes
+* By default, all cross-validation scripts use 5-folds
+* The following abbreviations are used, CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
 
 Example run with Brassica napus data set.
 
-Licence: GPL-3
+6- Licence: GPL-3
 
 For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de) 
