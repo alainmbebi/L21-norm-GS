@@ -1,33 +1,41 @@
 # L21-norm-GS
-R functions to perform ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and genomic prediction [(A. Mbebi et all. 2020)]()
 
-L21_featselect.R is a script to run the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression as in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization)
+R functions to implement genotype-phenotype association and genomic prediction using ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression, as described in [(A. Mbebi et all. 2020)]().
 
-CV_L21_featselect.R is a script to run K-folds cross-validation to select the tuning parameter to be used in L21_featselect.R
+The following R scripts are contained in the 'code' folder:
 
-RidgeEst.R is a script to compute ridge estimate
+* L21_featselect.R runs the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression as in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization)
 
-CV_Ridge.R runs K-folds cross-validation to select the tuning parameter to be used in RidgeEst
+* CV_L21_featselect.R selects the tuning parameter for L21_featselect.R using K-folds cross-validation
 
-L21_joint_estim.R performs the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and jointly estimate the regression coefficient and precision matrices
+* RidgeEst.R compute the Ridge estimate
 
-CV_L21_joint_estim.R is a script to run K-folds cross-validation to select the tuning parameters to be used in L21_joint_estim.R
+* CV_Ridge.R selects the tuning parameter for RidgeEst.R using K-folds cross-validation
 
-MOR.R is a script to run multiple output regression [(He et all. 2016)](https://academic.oup.com/bioinformatics/article/32/12/i37/2288681)
+* L21_joint_estim.R performs the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and jointly estimate the regression coefficient and precision matrices
 
-CV_MOR is a script to run K-folds cross-validation to select the tuning parameters to be used in MOR.R
+* CV_L21_joint_estim.R selects the tuning parameters for L21_joint_estim.R using K-folds cross-validation
 
-MTGS.mlasso
+* MOR.R runs multiple output regression [(He et all. 2016)](https://academic.oup.com/bioinformatics/article/32/12/i37/2288681)
 
-MTGS.kmlasso
+* CV_MOR.R selects the tuning parameters for MOR.R using K-folds CV
 
-coeffRV.R
+* MTGS.mlasso.R is called from MTGS package and compute the GEBVs using multivariate LASSO 
+
+* MTGS.kmlasso.R is called from MTGS package and compute the GEBVs using Kernelized multivariate LASSO
+
+* MTGS.mrce.R is called from MTGS package and compute the GEBVs using MRCE
+
+* coeffRV.R
 
 
-By default the all cross-validation scripts uses 5-folds
+By default the all cross-validation scripts use 5-folds
 
-gwas.r is a script to run GWAS with a mixed model
-
-plots_gwas.r is a script for plotting the results
+MTGS: Multi Traits Genomic Selection
+GS: Genomic Selection
+CV: Cross Validation
+LASSO: Least Absolute Shrinkage and Selection Operator
+MOR: Multiple Output Regression
+MRCE: Multivariate Regression with Covariance Estimation
 
 emma.r use the emma function (Kang et all. 2008) for the MRLE
