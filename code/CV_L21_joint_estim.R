@@ -1,8 +1,8 @@
 # Function to implement Cross Validation for L21_joint_estim
 # Y nxs response matrix
 # X nxp predictor matrix 
-# lambdaO vector of positive tuning parameters for the precision matrix, default grid is 10^seq(-3, 3, 1).
-# lambdaB vector of positive tuning parameters for the regression coefficient matrix, default grid is 10^seq(-3, 3, 1).
+# lambdaO vector of positive tuning parameters for the precision matrix, default grid is 2^seq(-3, 3, 1).
+# lambdaB vector of positive tuning parameters for the regression coefficient matrix, default grid is 2^seq(-3, 3, 1).
 # kfold is the number of folds for cross validation.
 # The returned list includes
 # lambdaO--> optimal tuning parameter for the precision matrix.
