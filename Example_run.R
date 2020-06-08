@@ -12,11 +12,15 @@ library(FactoMineR) # to compute the RV coefficient and test its significance
 library(hydroGOF)   # contains various function for summary statistics, such as mse, mae...
 
 #source the required functions
-source("coeffRV.R")
-source("coeffRV.R")
-source("coeffRV.R")
-source("coeffRV.R")
-source("coeffRV.R")
+
+source("CV_L21_featselect.R")
+source("CV_L21_joint_estim.R")
+source("CV_MOR.R")
+source("CV_Ridge.R")
+source("L21_featselect.R")
+source("L21_joint_estim.R")
+source("MOR.R")
+source("Ridge_estim.R")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 itermax=200  		    # maximum iterations
