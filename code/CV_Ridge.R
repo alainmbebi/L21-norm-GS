@@ -1,7 +1,7 @@
 # Function to implement Cross Validation for Ridge estimate
 # Y nxs response matrix
 # X nxp predictor matrix 
-# lam vector of positive tuning parameters. Default grid is {10^seq(-3, 3, 1)}.
+# lam vector of positive tuning parameters, default grid is 2^seq(-3, 3, 1).
 # kfold is the number of folds for cross validation.
 # The returned list includes
 # lam--> optimal tuning parameter.
