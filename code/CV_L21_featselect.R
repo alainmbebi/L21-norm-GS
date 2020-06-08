@@ -7,8 +7,6 @@
 # lam--> optimal tuning parameter.
 # min.error--> minimum average cross validation error for optimal parameters.
 # avg.error--> average cross validation error across all folds.
-
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                    #start
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
