@@ -10,6 +10,11 @@
 # min.error--> minimum average cross validation error for optimal parameters.
 # avg.error--> average cross validation error across all folds.
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #start
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 CV_L21_joint_estim <- function(lambdaO, lambdaB, X, Y, kfold=5) {
   lambdaO = sort(lambdaO)
   lambdaB = sort(lambdaB)
@@ -55,3 +60,8 @@ CV_L21_joint_estim <- function(lambdaO, lambdaB, X, Y, kfold=5) {
   return(list(lambdaO=opt.lamO, lambdaB=opt.lamB, min.error = error, avg.error = AVG, cv.err=CV_errors)) 
   
 }
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #end
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
