@@ -65,7 +65,7 @@ L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
     print(tcontj)
     
   }
-  return(list(B_1, Omega_1, tcontj))
+  return(list(B_1, Omega_1))
 }
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
