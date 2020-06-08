@@ -1,7 +1,7 @@
 # L21-norm-GS
-R functions to perform ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and genomic prediction [(A. Mbebi et. all)](add link after published)
+R functions to perform ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and genomic prediction [(A. Mbebi et all. 2020)](add link after published)
 
-L21_featselect.R is a script to run the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression as in [(Nie et all.)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization)
+L21_featselect.R is a script to run the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression as in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization)
 
 CV_L21_featselect.R is a script to run K-folds cross-validation to select the tuning parameter to be used in L21_featselect.R
 
