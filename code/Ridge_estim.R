@@ -1,5 +1,4 @@
 # Function to compute Ridge estimate
-
 # Y nxs response matrix
 # X nxp predictor matrix 
 # lambdaB regularization parameter
