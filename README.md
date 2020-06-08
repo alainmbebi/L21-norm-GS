@@ -2,7 +2,7 @@
 
 R functions to implement genotype-phenotype association and genomic prediction using ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression, as described in [(A. Mbebi et all. 2020)]().
 
-The following R scripts are contained in the 'code' folder:
+1- The folder code contains the following R scripts:
 
 * L21_featselect.R which uses the model proposed in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization) to implement GS under the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression 
 
@@ -25,6 +25,13 @@ The following R scripts are contained in the 'code' folder:
 * MTGS.kmlasso.R uses the MTGS.kmlasso function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using Kernelized multivariate LASSO
 
 * MTGS.mrce.R uses the MTGS.mrce function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using MRCE
+
+
+2- The folder Simulation contains data sets used for simulation. Files are to be readed as in the examples below:
+2-1- listX_n50p100s30rho.1 (list of the predictor matrices X for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+2-2- listY_n50p100s30rho.1  (list of the response matrices Y for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+2-3- trueB_n50p100s30rho.9 (list of the true regression coefficient matrices B for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+
 
 * coeffRV.R uses the coeffRV function from [FactoMineR R package](https://CRAN.R-project.org/package=FactoMineR) and is used to compute the RV coefficient
 
