@@ -4,9 +4,9 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 The following R scripts are contained in the 'code' folder:
 
-* L21_featselect.R runs the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression as in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization)
+* L21_featselect.R which uses the model proposed in [(Nie et all. 2010)](http://papers.nips.cc/paper/3988-efficient-and-robust-feature-selection-via-joint-l21-norms-minimization) to implement GS under the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression 
 
-* CV_L21_featselect.R selects the tuning parameter for L21_featselect.R using K-folds cross-validation
+* CV_L21_featselect.R which selects the tuning parameter for L21_featselect.R using K-folds cross-validation
 
 * Ridge_estim.R compute the Ridge estimate
 
@@ -20,22 +20,27 @@ The following R scripts are contained in the 'code' folder:
 
 * CV_MOR.R selects the tuning parameters for MOR.R using K-folds CV
 
-* MTGS.mlasso.R is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using multivariate LASSO 
+* MTGS.mlasso.R uses the MTGS.mlasso function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using multivariate LASSO 
 
-* MTGS.kmlasso.R is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using Kernelized multivariate LASSO
+* MTGS.kmlasso.R uses the MTGS.kmlasso function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using Kernelized multivariate LASSO
 
-* MTGS.mrce.R is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using MRCE
+* MTGS.mrce.R uses the MTGS.mrce function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using MRCE
 
-* coeffRV.R
+* coeffRV.R uses the coeffRV function from [FactoMineR R package](https://CRAN.R-project.org/package=FactoMineR) and is used to compute the RV coefficient
 
-
+Depends: R (>= 3.6)
+Imports: glmnet, kernlab, MRCE, BGLR, FactoMineR
+Licence: GPL-3
 By default, all cross-validation scripts use 5-folds
 
-MTGS: Multi Traits Genomic Selection
-GS: Genomic Selection
+
 CV: Cross Validation
+GBLUP: Genomic Best Linear Unbiased Prediction 
+GS: Genomic Selection
 LASSO: Least Absolute Shrinkage and Selection Operator
 MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation
+MTGS: Multi Traits Genomic Selection
+
 
 emma.r use the emma function (Kang et all. 2008) for the MRLE
