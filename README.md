@@ -12,7 +12,7 @@ The following R scripts are contained in the 'code' folder:
 
 * CV_Ridge.R selects the tuning parameter for Ridge_estim.R using K-folds cross-validation
 
-* L21_joint_estim.R performs the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression and jointly estimate the regression coefficient and precision matrices
+* L21_joint_estim.R performs GS using the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression that jointly estimates the regression coefficient and precision matrices
 
 * CV_L21_joint_estim.R selects the tuning parameters for L21_joint_estim.R using K-folds cross-validation
 
@@ -42,5 +42,4 @@ MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation
 MTGS: Multi Traits Genomic Selection
 
-
-emma.r use the emma function (Kang et all. 2008) for the MRLE
+For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de)
