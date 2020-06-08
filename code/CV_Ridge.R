@@ -7,6 +7,10 @@
 # lam--> optimal tuning parameter.
 # min.error--> minimum average cross validation error for optimal parameters.
 # avg.error--> average cross validation error across all folds.
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #start
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 CV_Ridge <- function(Y, X, lambdaB, kfold=5) {
   
   lambdaB = sort(lambdaB)
@@ -54,3 +58,7 @@ CV_Ridge <- function(Y, X, lambdaB, kfold=5) {
   return(list(lambdaB = best_lam, min.error = error, avg.error = AVG, cv.error = CV_errors))
   
 }
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #end
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
