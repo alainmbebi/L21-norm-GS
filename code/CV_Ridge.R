@@ -1,5 +1,12 @@
-#Cross Validation for the Ridge estimate
-
+# Function to implement Cross Validation for Ridge estimate
+# Y nxs response matrix
+# X nxp predictor matrix 
+# lam vector of positive tuning parameters. Default grid is {10^seq(-3, 3, 1)}.
+# kfold is the number of folds for cross validation.
+# The returned list includes
+# lam--> optimal tuning parameter.
+# min.error--> minimum average cross validation error for optimal parameters.
+# avg.error--> average cross validation error across all folds.
 CV_Ridge <- function(Y, X, lambdaB, kfold=5) {
   
   lambdaB = sort(lambdaB)
