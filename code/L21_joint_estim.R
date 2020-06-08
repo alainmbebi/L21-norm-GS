@@ -3,10 +3,12 @@
 # X nxp predictor matrix 
 # lambdaB regularization parameter for the regression coefficient matrix B
 # lambdaO regularization parameter for the precision matrix \Omega
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #start
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
- #----------------------
-  
+  #----------------------
   # t=0 initialization
   diag_C_0=c(rep(1, nrow(t(X))))            
   invdiag_C_0=1/diag_C_0  
@@ -16,6 +18,7 @@ L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
   Omega_0=solve(Omega_ridge)                               #initialize the inv Cov as omega ridge 
   B_0= (2/(nrow(t(Y))*lambdaB))*invdiag_C_0*t(X)%*%Omega_0%*%(Y-(2/(nrow(t(Y))*lambdaB))*solve((diag(ncol(t(Y)))+(2/(nrow(t(Y))*lambdaB))*X%*%(invdiag_C_0*t(X)%*%Omega_0)))%*%X%*%(invdiag_C_0*t(X)%*%Omega_0)%*%Y)
   #----------------------
+ 
   #update t=1 
   l21B_1=c(rep(0, (nrow(t(X)))))
   for(i in 1:(nrow(t(X)))){
@@ -38,8 +41,8 @@ L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
   B_2= (2/(nrow(t(Y))*lambdaB))*invdiag_C_2*t(X)%*%Omega_2%*%(Y-(2/(nrow(t(Y))*lambdaB))*solve((diag(ncol(t(Y)))+(2/(nrow(t(Y))*lambdaB))*X%*%(invdiag_C_2*t(X)%*%Omega_2)))%*%X%*%(invdiag_C_2*t(X)%*%Omega_2)%*%Y)
   #----------------------- 
   #start iteration
+ 
   tcontj=1
-  
   #while((sum(l21B_2)<=sum(l21B_1))==TRUE  && tcontj<=itermax){ ## other convergence criteria
   while(( (abs(sum(B_2 - B_1))>eps*abs(sum(B_Ridge)))) && (tcontj<=itermax)){ 
     l21B_1=l21B_2
@@ -64,3 +67,7 @@ L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
   }
   return(list(B_1, Omega_1, tcontj))
 }
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                   #end
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
