@@ -1,0 +1,10 @@
+# Function to compute Ridge estimate
+
+# Y nxs response matrix
+# X nxp predictor matrix 
+# lambdaB regularization parameter
+
+Ridge_estim<-function(lambdaB, X, Y){
+  Bhat_Ridge= round(t(X)%*%solve(X%*%t(X) + lambdaB*diag(nrow(Y)))%*%Y ,6)
+  return(Bhat_Ridge)
+}
