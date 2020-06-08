@@ -29,11 +29,11 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 2- The folder Simulation contains data sets used for simulation. Files are to be readed as in the examples below:
 
-2-1- listX_n50p100s30rho.1 (list of the predictor matrices X for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+* listX_n50p100s30rho.1 (list of the predictor matrices X for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
 
-2-2- listY_n50p100s30rho.1  (list of the response matrices Y for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+* listY_n50p100s30rho.1  (list of the response matrices Y for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
 
-2-3- trueB_n50p100s30rho.9 (list of the true regression coefficient matrices B for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
+* trueB_n50p100s30rho.9 (list of the true regression coefficient matrices B for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter \rho=.1)
 
 3- The folder data contains real-world data sets, Brassica napus and wheat from MTGS and BLRG packages respectively.
 
