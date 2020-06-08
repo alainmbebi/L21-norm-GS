@@ -13,7 +13,7 @@ L21_joint_estim.R performs the ![equation](https://latex.codecogs.com/gif.latex?
 
 CV_L21_joint_estim.R is a script to run K-folds cross-validation to select the tuning parameters to be used in L21_joint_estim.R
 
-MOR.R is a script to run multiple output regression [(He et all. 2016)](doi: 10.1093/bioinformatics/btw249)
+MOR.R is a script to run multiple output regression [(He et all. 2016)](https://academic.oup.com/bioinformatics/article/32/12/i37/2288681)
 
 CV_MOR is a script to run K-folds cross-validation to select the tuning parameters to be used in MOR.R
 
