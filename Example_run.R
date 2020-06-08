@@ -46,7 +46,7 @@ lambdaB.opt.Ridge=L.opt.Ridge[[1]]
 Bhat_Ridge= Ridge_estim(lambdaB.opt.Ridge, X.tr, Y.tr)
 Pred_Ridge=X.hold%*%Bhat_Ridge
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_Ridge, "Bhat_Ridge.csv")
 write.csv(Pred_Ridge, "Pred_Ridge.csv")
 
@@ -60,7 +60,7 @@ lambdaB.opt.l21fs=L.opt[[1]]
 Bhat_l21fs = L21_featselect(lambdaB.opt.l21fs, X.tr, Y.tr)
 Pred_l21fs=X.hold%*%Bhat_l21fs
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_l21fs, "Bhat_l21fs.csv")
 write.csv(Pred_l21fs, "Pred_l21fs.csv")
 
@@ -80,46 +80,46 @@ invOmega_MOR=Final_MOR_est_CV[[2]]
 invSigma_MOR=Final_MOR_est_CV[[3]]
 Pred_MOR=X.hold%*%Bhat_MOR
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_MOR, "Bhat_MOR.csv")
 write.csv(Pred_MOR, "Pred_MOR.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Compare 4 mlasso
+#Compare 4: mlasso
 Pred_MTGS.mlasso.tr=MTGS.mlasso(X.tr,Y.tr,r)$Pred
 Bhat_MTGS.mlasso=ginv(X.tr)%*%Pred_MTGS.mlasso.tr
 Pred_MTGS.mlasso=X.hold%*%Bhat_MTGS.mlasso
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_MTGS.mlasso, "Bhat_MTGS.mlasso.csv")
 write.csv(Pred_MTGS.mlasso, "Pred_MTGS.mlasso.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Compare 5 MRCE
+#Compare 5: MRCE
 Bhat_MTGS.mrce=MTGS.mrce(X.tr,Y.tr,r)$Bhat
 Pred_MTGS.mrce=X.hold%*%Bhat_MTGS.mrce
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_MTGS.mrce, "Bhat_MTGS.mrce.csv")
 write.csv(Pred_MTGS.mrce, "Pred_MTGS.mrce.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Compare 6 kmLASSO
+#Compare 6: kmLASSO
 Pred_MTGS.kmlasso.tr=MTGS.kmlasso(X.tr, Y.tr)$Pred[,,1]
 Bhat_MTGS.kmlasso=ginv(X.tr)%*%Pred_MTGS.kmlasso.tr
 Pred_MTGS.kmlasso=X.hold%*%Bhat_MTGS.kmlasso
 
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_MTGS.kmlasso , "Bhat_MTGS.kmlasso.csv")
 write.csv(Pred_MTGS.kmlasso, "Pred_MTGS.kmlasso.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Compare 7 GBLUP
+#Compare 7: GBLUP
 
 ETA=list(list(X.tr=X.tr,model="BRR"))
 fmR1<-BGLR(y=Y.tr[,1],ETA=ETA,nIter=1000,burnIn=itermax=200  		  # maximum iterations for algo 1
@@ -132,7 +132,7 @@ bHat3_GBLUP<- fmR3$ETA[[1]]$b
 Bhat_GBLUP=cbind(bHat1_GBLUP,bHat2_GBLUP,bHat3_GBLUP)
 Pred_GBLUP=X.hold%*%Bhat_GBLUP
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_GBLUP, "Bhat_GBLUP.csv")
 write.csv(Pred_GBLUP, "Pred_GBLUP.csv")
 
@@ -148,7 +148,7 @@ Bhat_rmrce_jointfs = round(Final_joint_est_CVfs[[1]],6)
 Omega_hat_rmrce_jointfs=Final_joint_est_CVfs[[2]]
 Pred_rmrce_jointfs=X.hold%*%Bhat_rmrce_jointfs
 
-#save outputs for further analysis
+#save outputs for further use
 write.csv(Bhat_rmrce_jointfs, "Bhat_rmrce_jointfs.csv")
 write.csv(Omega_hat_rmrce_jointfs, "Omega_hat_rmrce_jointfs.csv")
 write.csv(Pred_rmrce_jointfs, "Pred_rmrce_jointfs.csv")
