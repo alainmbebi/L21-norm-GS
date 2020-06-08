@@ -1,5 +1,9 @@
-MOR<-function(lambda1, lambda2, lambda3, lambda4, X, Y){
-  #Multiple output regression (MOR)
+# Function to implement GS using multiple output regression
+# Y nxs response matrix
+# X nxp predictor matrix 
+# lambda1, lambda2, lambda3 and lambda4 are the regularization parameters, see (He et all. 2016) for details.
+
+MOR <- function(lambda1, lambda2, lambda3, lambda4, X, Y){
   #----------------------
   
   # t=0 initialization
@@ -8,7 +12,7 @@ MOR<-function(lambda1, lambda2, lambda3, lambda4, X, Y){
   Omega_0=diag(ncol(Y))                           # Initialize Sigma as the identity matrix of dim the number ncol of Y 
   invSigma0=solve(Sigma_0)
   invOmega0=solve(Omega_0)
-  P0=t(chol(lambda1*Omega_0 +  lambda2*Sigma_0))  # to get the lower triangular matrix P (notice the transpose otherwise upper triangular)
+  P0=t(chol(lambda1*Omega_0 +  lambda2*Sigma_0))  # to get the lower triangular matrix P (notice the transpose, otherwise the upper triangular matrix is provided).
   
   #----------------------
   SVD_P0=svd(P0)
@@ -82,8 +86,8 @@ MOR<-function(lambda1, lambda2, lambda3, lambda4, X, Y){
     #---------------------- 
     Btilde0= matrix(0, nrow=nrow(X), ncol=ncol(Y))
     S0=tV1%*%t(X)%*%Y%*%U2_0
-    diagSigma1=(Sigma1vect)^2 #length p
-    diagSigma2_0=(Sigma2vect_0)^2 #length s
+    diagSigma1=(Sigma1vect)^2          #length p
+    diagSigma2_0=(Sigma2vect_0)^2      #length s
     for(i in 1:(nrow(X))){
       for(j in 1:(ncol(Y))){
         Btilde0[i,j]<-S0[i,j]/(diagSigma1[i] + diagSigma2_0[j])
@@ -124,5 +128,5 @@ MOR<-function(lambda1, lambda2, lambda3, lambda4, X, Y){
     
     
   }
-  return(list(B1, invOmega1, invSigma1, tcontjmor))
+  return(list(B1, invOmega1, invSigma1))
 }
