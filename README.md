@@ -39,4 +39,4 @@ CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomi
 LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
 
-For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de)
+For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de) 
