@@ -10,6 +10,7 @@
 CV_Ridge <- function(Y, X, lambdaB, kfold=5) {
   
   lambdaB = sort(lambdaB)
+  # initialize
   CV_errors = array(0, c(length(lambdaB), kfold))
   
   n = nrow(Y)
