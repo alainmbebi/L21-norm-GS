@@ -44,8 +44,6 @@ R functions to implement genotype-phenotype association and genomic prediction u
 * The following abbreviations are used, CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
 
-6- The R script Example_run.R shwocases the implementation with Brassica napus data set.
-
 6- Licence: GPL-3
 
 For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de) 
