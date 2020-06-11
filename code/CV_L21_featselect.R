@@ -52,7 +52,7 @@ CV_L21_featselect <- function(Y, X, lam, kfold=5) {
   error = min(AVG)
   
   
-  # return best lam and other meaningful values
+  # return the best tuning parameter and other meaningful values
   return(list(lam = best_lam, min.error = error, avg.error = AVG, cv.error = CV_errors))
   
 }
