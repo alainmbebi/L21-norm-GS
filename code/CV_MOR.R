@@ -66,7 +66,7 @@ CV_MOR <- function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
   opt.lam3 = opt[3]
   opt.lam4 = opt[4]
  
-  # return best lambda1, lambda2, lambda3, lambda4 and other meaningful values
+  # return the optimal tuning parameters and other meaningful values
   return(list(lambda1=opt.lam1, lambda2=opt.lam2, lambda3=opt.lam3, lambda4=opt.lam4, min.error = error, avg.error = AVG, cv.err=CV_errors)) 
   
 }
