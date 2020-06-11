@@ -54,7 +54,7 @@ CV_Ridge <- function(Y, X, lambdaB, kfold=5) {
   error = min(AVG)
   
   
-  # return best lambdaB and other meaningful values
+  # return the optimal tuning parameter and other meaningful values
   return(list(lambdaB = best_lam, min.error = error, avg.error = AVG, cv.error = CV_errors))
   
 }
