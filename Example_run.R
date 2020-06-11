@@ -44,7 +44,7 @@ r<-0.35 # see the MTGS package for detail
 # the Ridge estimate
 # find the optimal lambdaB with 5-folds CV
 L.opt.Ridge=CV_Ridge(Y.tr, X.tr, lambdaB=2^seq(-2,2,1), kfold=5)
-lambdaB.opt.Ridge=L.opt.Ridge[[1]]
+lambdaB.opt.Ridge=L.opt.Ridge[[1]]    #the optimal value was 4
 
 Bhat_Ridge= Ridge_estim(lambdaB.opt.Ridge, X.tr, Y.tr)
 Pred_Ridge=X.hold%*%Bhat_Ridge
@@ -58,7 +58,7 @@ write.csv(Pred_Ridge, "Pred_Ridge.csv")
 #Compare 2: l21 features selection with CV
 # find the optimal lambdaB with 5-folds CV
 L.opt=CV_L21_featselect(Y.tr, X.tr, lam=2^seq(-4,-2,1), kfold=5)
-lambdaB.opt.l21fs=L.opt[[1]]
+lambdaB.opt.l21fs=L.opt[[1]]    #the optimal value was .25 
 
 Bhat_l21fs = L21_featselect(lambdaB.opt.l21fs, X.tr, Y.tr)
 Pred_l21fs=X.hold%*%Bhat_l21fs
@@ -72,10 +72,10 @@ write.csv(Pred_l21fs, "Pred_l21fs.csv")
 #Compare 3: cMOR
 # find the optimal lambdas with 5-folds CV
 L.MOR.opt=CV_MOR(lambda1 = 2^seq(-2,-1,1), lambda2 = 2^seq(-2,-1,1), lambda3 = 2^seq(-2,-1,1), lambda4 = 2^seq(-2,-1,1), X.tr, Y.tr,  kfold=5)
-lam1.opt.MOR=L.MOR.opt[[1]]
-lam2.opt.MOR=L.MOR.opt[[2]]
-lam3.opt.MOR=L.MOR.opt[[3]]
-lam4.opt.MOR=L.MOR.opt[[4]]
+lam1.opt.MOR=L.MOR.opt[[1]]   #the optimal value was .5 
+lam2.opt.MOR=L.MOR.opt[[2]]   #the optimal value was .5 
+lam3.opt.MOR=L.MOR.opt[[3]]   #the optimal value was .5 
+lam4.opt.MOR=L.MOR.opt[[4]]   #the optimal value was .5 
 
 Final_MOR_est_CV=MOR(lam1.opt.MOR, lam2.opt.MOR, lam3.opt.MOR, lam4.opt.MOR, X.tr, Y.tr)
 Bhat_MOR=round(Final_MOR_est_CV[[1]], 6)
@@ -142,8 +142,8 @@ write.csv(Pred_GBLUP, "Pred_GBLUP.csv")
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #L21-joint estimation with CV 
 L.joint.optfs=CV_L21_joint_estim(lambdaO=12, lambdaB=2^seq(-4,-3,1), X.tr, Y.tr,  kfold=5)
-lamO.opt.jointfs=L.joint.optfs[[1]]
-lamB.opt.jointfs=L.joint.optfs[[2]]
+lamO.opt.jointfs=L.joint.optfs[[1]]   #the optimal value was 12 
+lamB.opt.jointfs=L.joint.optfs[[2]]   #the optimal value was .125 
 
 Final_joint_est_CVfs=L21_joint_estim(lamO.opt.jointfs, lamB.opt.jointfs, X.tr, Y.tr)
 Bhat_rmrce_jointfs = round(Final_joint_est_CVfs[[1]],6)
