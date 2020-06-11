@@ -3,8 +3,8 @@
                                                    #start
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 set.seed(143)
-#load required libraries
 
+#load required libraries
 library(MASS)
 library(MRCE)       # to implement MRCE
 library(glasso)     # to implement glasso
@@ -15,7 +15,6 @@ library(FactoMineR) # to compute the RV coefficient and test its significance
 library(hydroGOF)   # contains various function for summary statistics, such as mse, mae...
 
 #source the required functions
-
 source("CV_L21_featselect.R")
 source("CV_L21_joint_estim.R")
 source("CV_MOR.R")
