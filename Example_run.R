@@ -202,7 +202,7 @@ write.csv(summary_GBLUP, "summary_GBLUP.csv")
 #--------------------------------------------------
 #Finding RV coefficients for all models
 
-coeffRV_Ridge= (Y.hold,Pred_Ridge)$rv
+coeffRV_Ridge=coeffRV(Y.hold,Pred_Ridge)$rv
 coeffRV_l21fs=coeffRV(Y.hold,Pred_l21fs)$rv
 coeffRV_cMOR=coeffRV(Y.hold,Pred_MOR)$rv
 coeffRV_kmLASSO=coeffRV(Y.hold,Pred_MTGS.kmlasso)$rv
