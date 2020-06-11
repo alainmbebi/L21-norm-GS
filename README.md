@@ -20,13 +20,6 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 * CV_MOR.R selects the tuning parameters for MOR.R using K-folds CV
 
-* MTGS.mlasso.R uses the MTGS.mlasso function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using multivariate LASSO 
-
-* MTGS.kmlasso.R uses the MTGS.kmlasso function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using Kernelized multivariate LASSO
-
-* MTGS.mrce.R uses the MTGS.mrce function from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using MRCE
-
-
 2- The folder Simulation contains data sets used for simulation. Files are to be read as in the examples below:
 
 * listX_n50p100s30rho.1 (list of the predictor matrices X for all 20 replicates, with n=50, p=100, s=30 and the AR(1) parameter ![equation](https://latex.codecogs.com/gif.latex?%5Crho%3D1))
@@ -37,10 +30,17 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 3- The folder data contains Brassica napus and wheat data sets from [MTGS](https://CRAN.R-project.org/package=MTGS) and [BLRG](https://CRAN.R-project.org/package=BGLR ) packages respectively.
 
-4- The file Example_run.R is an implementation example of all models/functions previously discussed. 
+4- The file Example_run.R is an implementation example of all models/functions previously discussed, using the Brassica napus data set. 
 
 5- Notes
+* The MTGS.mlasso function is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using multivariate LASSO 
+
+* The MTGS.kmlasso function is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using Kernelized multivariate LASSO
+
+* The MTGS.mrce function is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using MRCE
+
 * By default, all cross-validation scripts use 5-folds
+
 * The following abbreviations are used, CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
 
