@@ -12,7 +12,7 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 * CV_Ridge.R selects the tuning parameter for Ridge_estim.R using K-folds cross-validation
 
-* L21_joint_estim.R performs GS using the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression that jointly estimates the regression coefficient and precision matrices
+* L21_joint_estim.R performs GS using the ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression that jointly estimates the regression coefficients and precision matrix
 
 * CV_L21_joint_estim.R selects the tuning parameters for L21_joint_estim.R using K-folds cross-validation
 
@@ -44,7 +44,7 @@ R functions to implement genotype-phenotype association and genomic prediction u
 * The following abbreviations are used, CV: Cross Validation, GBLUP: Genomic Best Linear Unbiased Prediction, GS: Genomic Selection, LASSO: Least Absolute Shrinkage and Selection Operator, MOR: Multiple Output Regression
 MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Genomic Selection.
 
-Example run with Brassica napus data set.
+6- The R script Example_run.R shwocases the implementation with Brassica napus data set.
 
 6- Licence: GPL-3
 
