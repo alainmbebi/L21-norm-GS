@@ -54,7 +54,7 @@ CV_L21_joint_estim <- function(lambdaO, lambdaB, X, Y, kfold=5) {
   opt.lamB = lambdaB[opt.j]
   
   
-  # return the best tuning parmaters and other meaningful values
+  # return the optimal  tuning parmaters and other meaningful values
   return(list(lambdaO=opt.lamO, lambdaB=opt.lamB, min.error = error, avg.error = AVG, cv.err=CV_errors)) 
   
 }
