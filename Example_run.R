@@ -122,7 +122,7 @@ write.csv(Pred_MTGS.kmlasso, "Pred_MTGS.kmlasso.csv")
 #Compare 7: GBLUP
 
 ETA=list(list(X.tr=X.tr,model="BRR"))
-fmR1<-BGLR(y=Y.tr[,1],ETA=ETA,nIter=1000,burnIn=itermax=200)
+fmR1<-BGLR(y=Y.tr[,1],ETA=ETA,nIter=1000,burnIn=500,thin=10)
 fmR2<-BGLR(y=Y.tr[,2],ETA=ETA,nIter=1000,burnIn=500,thin=10)
 fmR3<-BGLR(y=Y.tr[,3],ETA=ETA,nIter=1000,burnIn=500,thin=10)
 bHat1_GBLUP<- fmR1$ETA[[1]]$b
