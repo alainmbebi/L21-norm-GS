@@ -5,6 +5,7 @@
 set.seed(143)
 #load required libraries
 
+library(MASS)
 library(MRCE)       # to implement MRCE
 library(glasso)     # to implement glasso
 library(glmnet)     # to implement the multivariate LASSO
