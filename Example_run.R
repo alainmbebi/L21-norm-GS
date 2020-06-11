@@ -26,7 +26,7 @@ source("Ridge_estim.R")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 itermax=200  		    # maximum iterations
-eps=10^-5           #threshold for convergence in L21-joint as described in the manuscript
+eps=10^-5             #threshold for convergence in L21-joint as described in the manuscript
 data(brassica_data)
 X<-as.matrix(brassica_data[,1:100])
 Y<-as.matrix(brassica_data[,101:103])
