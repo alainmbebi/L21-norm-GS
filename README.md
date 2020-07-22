@@ -48,4 +48,3 @@ MRCE: Multivariate Regression with Covariance Estimation, MTGS: Multi Traits Gen
 
 6. Licence: GPL-3
 
-For any questions: [mbebi@mpimp-golm.mpg.de](mbebi@mpimp-golm.mpg.de) 
