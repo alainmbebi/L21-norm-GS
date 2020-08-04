@@ -44,7 +44,7 @@ L21_joint_estim <- function(lambdaO, lambdaB, X, Y){
  
   tcontj=1
   #while((sum(l21B_2)<=sum(l21B_1))==TRUE  && tcontj<=itermax){ ## other convergence criteria
-  while(( (abs(sum(B_2 - B_1))>eps*abs(sum(B_Ridge)))) && (tcontj<=itermax)){ 
+  while(( (sum(abs(B_2 - B_1))>eps*sum(abs(B_Ridge)))) && (tcontj<=itermax)){ 
     l21B_1=l21B_2
     invdiag_C_1=invdiag_C_2
     S_1=S_2
