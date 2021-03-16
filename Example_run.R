@@ -10,7 +10,7 @@ library(MRCE)       # to implement MRCE
 library(glasso)     # to implement glasso
 library(glmnet)     # to implement the multivariate LASSO
 library(MTGS)       # to implement all MTGS models and also provides the Brassica napus data 
-library(BGLR)       # to implement GBLUP and also provides the wheat data 
+library(BGLR)       # to implement GBLUP, MBayesB and also provides the wheat data 
 library(FactoMineR) # to compute the RV coefficient and test its significance
 library(hydroGOF)   # contains various function for summary statistics, such as mse, mae...
 
@@ -49,10 +49,6 @@ lambdaB.opt.Ridge=L.opt.Ridge[[1]]    #the optimal value was 4
 Bhat_Ridge= Ridge_estim(lambdaB.opt.Ridge, X.tr, Y.tr)
 Pred_Ridge=X.hold%*%Bhat_Ridge
 
-#save outputs for further use
-write.csv(Bhat_Ridge, "Bhat_Ridge.csv")
-write.csv(Pred_Ridge, "Pred_Ridge.csv")
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Compare 2: l21 features selection with CV
@@ -62,10 +58,6 @@ lambdaB.opt.l21fs=L.opt[[1]]    #the optimal value was .25
 
 Bhat_l21fs = L21_featselect(lambdaB.opt.l21fs, X.tr, Y.tr)
 Pred_l21fs=X.hold%*%Bhat_l21fs
-
-#save outputs for further use
-write.csv(Bhat_l21fs, "Bhat_l21fs.csv")
-write.csv(Pred_l21fs, "Pred_l21fs.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -83,10 +75,6 @@ invOmega_MOR=Final_MOR_est_CV[[2]]
 invSigma_MOR=Final_MOR_est_CV[[3]]
 Pred_MOR=X.hold%*%Bhat_MOR
 
-#save outputs for further use
-write.csv(Bhat_MOR, "Bhat_MOR.csv")
-write.csv(Pred_MOR, "Pred_MOR.csv")
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Compare 4: mlasso
@@ -94,19 +82,11 @@ Pred_MTGS.mlasso.tr=MTGS.mlasso(X.tr,Y.tr,r)$Pred
 Bhat_MTGS.mlasso=ginv(X.tr)%*%Pred_MTGS.mlasso.tr
 Pred_MTGS.mlasso=X.hold%*%Bhat_MTGS.mlasso
 
-#save outputs for further use
-write.csv(Bhat_MTGS.mlasso, "Bhat_MTGS.mlasso.csv")
-write.csv(Pred_MTGS.mlasso, "Pred_MTGS.mlasso.csv")
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Compare 5: MRCE
 Bhat_MTGS.mrce=MTGS.mrce(X.tr,Y.tr,r)$Bhat
 Pred_MTGS.mrce=X.hold%*%Bhat_MTGS.mrce
-
-#save outputs for further use
-write.csv(Bhat_MTGS.mrce, "Bhat_MTGS.mrce.csv")
-write.csv(Pred_MTGS.mrce, "Pred_MTGS.mrce.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -114,11 +94,6 @@ write.csv(Pred_MTGS.mrce, "Pred_MTGS.mrce.csv")
 Pred_MTGS.kmlasso.tr=MTGS.kmlasso(X.tr, Y.tr)$Pred[,,1]
 Bhat_MTGS.kmlasso=ginv(X.tr)%*%Pred_MTGS.kmlasso.tr
 Pred_MTGS.kmlasso=X.hold%*%Bhat_MTGS.kmlasso
-
-
-#save outputs for further use
-write.csv(Bhat_MTGS.kmlasso , "Bhat_MTGS.kmlasso.csv")
-write.csv(Pred_MTGS.kmlasso, "Pred_MTGS.kmlasso.csv")
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -134,9 +109,26 @@ bHat3_GBLUP<- fmR3$ETA[[1]]$b
 Bhat_GBLUP=cbind(bHat1_GBLUP,bHat2_GBLUP,bHat3_GBLUP)
 Pred_GBLUP=X.hold%*%Bhat_GBLUP
 
-#save outputs for further use
-write.csv(Bhat_GBLUP, "Bhat_GBLUP.csv")
-write.csv(Pred_GBLUP, "Pred_GBLUP.csv")
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#Compare 8 Multitrait Bayes B
+  SVD=svd(Y.tr)
+  U=SVD$u
+  D=diag(SVD$d)
+  V=SVD$v
+  
+  
+ Bhat_MBayesB=matrix(nrow=ncol(X.tr),ncol=ncol(Y.tr))
+
+ ETA=list(list(X=X.tr,model='BayesB'))
+ for(i in 1:ncol(Y.tr)){
+	fm=BGLR(y=U[,i],ETA=ETA,verbose=F) #use more iterations if needed!
+	Bhat_MBayesB[,i]=fm$ETA[[1]]$b
+ }
+
+ # Rotating coefficients to put them in marker space
+BETA_MBayesB=Bhat_MBayesB%*%D%*%t(SVD$v)
+Pred_MBayesB=X.hold%*%BETA_MBayesB
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -150,68 +142,6 @@ Bhat_rmrce_jointfs = round(Final_joint_est_CVfs[[1]],6)
 Omega_hat_rmrce_jointfs=Final_joint_est_CVfs[[2]]
 Pred_rmrce_jointfs=X.hold%*%Bhat_rmrce_jointfs
 
-#save outputs for further use
-write.csv(Bhat_rmrce_jointfs, "Bhat_rmrce_jointfs.csv")
-write.csv(Omega_hat_rmrce_jointfs, "Omega_hat_rmrce_jointfs.csv")
-write.csv(Pred_rmrce_jointfs, "Pred_rmrce_jointfs.csv")
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-#Summary statistics mse, r, mae... all contained in a single file
-
-summary_l21fs=gof.matrix(Y.hold, Pred_l21fs, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                         j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                         hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_MOR=gof.matrix(Y.hold, Pred_MOR, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                       j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                       hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_Ridge=gof.matrix(Y.hold, Pred_Ridge, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                         j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                         hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_rmrce_jointfs=gof.matrix(Y.hold, Pred_rmrce_jointfs, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                                 j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                                 hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_MTGS.kmlasso=gof.matrix(Y.hold, Pred_MTGS.kmlasso, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                                j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                                hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_MTGS.mlasso=gof.matrix(Y.hold, Pred_MTGS.mlasso, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                               j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                               hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_MTGS.mrce=gof.matrix(Y.hold, Pred_MTGS.mrce, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                             j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                             hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-summary_GBLUP=gof.matrix(Y.hold, Pred_GBLUP, na.rm=TRUE, do.spearman=FALSE, do.pbfdc=TRUE,
-                         j=1, norm="sd", s=c(1,1,1), method=c("2009", "2012"), lQ.thr=0.7, 
-                         hQ.thr=0.2, digits=5)
-#----------------------------------------------------------------------------------------------------------------
-write.csv(summary_l21fs, "summary_l21fs.csv")
-write.csv(summary_Ridge, "summary_Ridge.csv")
-write.csv(summary_MOR, "summary_MOR.csv")
-write.csv(summary_rmrce_jointfs, "summary_rmrce_jointfs.csv")
-write.csv(summary_MTGS.kmlasso, "summary_MTGS.kmlasso.csv")
-write.csv(summary_MTGS.mlasso, "summary_MTGS.mlasso.csv")
-write.csv(summary_MTGS.mrce, "summary_MTGS.mrce.csv")
-write.csv(summary_GBLUP, "summary_GBLUP.csv")       
-
-#--------------------------------------------------
-#Finding RV coefficients for all models
-
-coeffRV_Ridge=coeffRV(Y.hold,Pred_Ridge)$rv
-coeffRV_l21fs=coeffRV(Y.hold,Pred_l21fs)$rv
-coeffRV_cMOR=coeffRV(Y.hold,Pred_MOR)$rv
-coeffRV_kmLASSO=coeffRV(Y.hold,Pred_MTGS.kmlasso)$rv
-coeffRV_mlasso=coeffRV(Y.hold,Pred_MTGS.mlasso)$rv
-coeffRV_mrce=coeffRV(Y.hold,Pred_MTGS.mrce)$rv
-coeffRV_GBLUP=coeffRV(Y.hold,Pred_GBLUP)$rv
-coeffRV_rmrce_jointfs=coeffRV(Y.hold,Pred_rmrce_jointfs)$rv
-#--------------------------------------------------
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                    #end
