@@ -51,7 +51,7 @@ multi.BayesB.cv <-function(X,Y, kfold=5){
   
    ETA=list(list(X=X.tr.out, model='BayesB'))
   for(i in 1:ncol(Y.tr.out)){
-    fm=BGLR(y=U[[l]][,i],ETA=ETA,verbose=F) #use more iterations!
+    fm=BGLR(y=U[[l]][,i],ETA=ETA,verbose=F) #use more iterations! the value of Pi can be set here otherwise the default parameters are used.
     BETA_MBayesB[[l]][,i]=fm$ETA[[1]]$b
   }
   
