@@ -10,9 +10,8 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                    #start
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 #function for cross validation in multiple ridge
-multi.lasso.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
+multi.ridge.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
   set.seed(123)
   n.out = nrow(Y)
   K.out = kfold
@@ -62,7 +61,8 @@ multi.lasso.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
     }
     folds.iner[[K.iner]] = i.mix.iner[((K.iner-1)*d.iner+1):n.iner]  
     
-    #CV_errors will contain the prediction errors for each tuning parameters when fitting the model.
+    #This matrix (CV_errors) will contain the prediction errors for each combination of tuning parameters
+    #lambdaOmega on the rows and lambdaB on the columns, when fitting the model.
     CV_errors.iner = rep(NA, length(lambdaB))
     CV_errors.val.iner = rep(list(CV_errors.iner), K.iner)
 
@@ -84,7 +84,7 @@ multi.lasso.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
       
         for(i in 1:length(lambdaB)){
           # compute the penalized regression matrix estimate with the training set
-          B_hat.tr.iner = multi.lasso(X.tr.iner, Y.tr.iner, lambdaB[i]) 
+          B_hat.tr.iner = multi.ridge(X.tr.iner, Y.tr.iner, lambdaB[i]) 
           CV_errors.val.iner[[k]][i] = mean(mse.matrix(X.val.iner%*%B_hat.tr.iner,Y.val.iner))#eventually use the RV coef
         }
       
@@ -98,7 +98,7 @@ multi.lasso.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
     #Now with the optimal tuning parameters from the inner loop
     #we validate on the left aside fold in the outer loop
     # compute the penalized regression matrix estimate with the training set
-        B_hat.tr.out = multi.lasso(X.tr.out, Y.tr.out, opt.lamB.out[l]) 
+        B_hat.tr.out = multi.ridge(X.tr.out, Y.tr.out, opt.lamB.out[l]) 
         CV_errors.val.out[[l]] = mse.matrix(X.val.out%*%B_hat.tr.out, Y.val.out, na.rm = TRUE)#needed to compute the average metrics over all val folds
         CV_corr.val.out[[l]] = cor(X.val.out%*%B_hat.tr.out, Y.val.out)
   }
@@ -106,11 +106,12 @@ multi.lasso.cv <-function(X,Y, lambdaB, kfold=3, silent=TRUE){
   best.idx.out=which.min((sapply(CV_errors.val.out, min)))
   best.lamB.final = opt.lamB.out[best.idx.out]
   #output on all data
-  B_hat_final = multi.lasso(X, Y, best.lamB.final) 
+  B_hat_final = multi.ridge(X, Y, best.lamB.final) 
   # return best lambdaB and other meaningful values
   return(list(best.lamB.final=best.lamB.final, B_hat_final=B_hat_final, cv_corr=CV_corr.val.out, cv.err=CV_errors.val.out)) 
    
 }
+
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
