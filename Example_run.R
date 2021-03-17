@@ -1,8 +1,4 @@
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                                   #start
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# '@ Alain Mbebi
+# '@Alain Mbebi
 set.seed(123)
 #-----------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------
@@ -10,34 +6,19 @@ set.seed(123)
 library(data.table)
 library(MASS)
 library(corpcor)
-library(Matrix)           # use Diagonal() when computing kronecker instead of diag()
+library(Matrix)           
 library(lattice)
 library(mvtnorm)
-library(expm)             # to find the unique psd sqrt of matrices with the function sqrtm().
 library(MRCE)             # This will help  to compare with the MRCE model of Rothman et.al 2010
 library(remMap)           # This will help  to compare with the remMap model of Jie Peng et.al 2010
-library(glasso)           # This will help to estimate sparse Omega_Mixt using Graphical Lasso
+library(glasso)           # This will help to estimate precision matrix using Graphical Lasso
 library(glassoFast)
 library(matrixcalc)
 library(CVTuningCov)
 library(glmnet)
 library(BGLR)
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# '@functions
-#function to center data matrices using 'colMeans()' note that we center the col because they represent variables
-center_colmeans <- function(x) {
-  xcenter = colMeans(x)
-  x - rep(xcenter, rep.int(nrow(x), ncol(x)))
-}
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#function to compute the L2-norm of a given vector x
-L2norm <- function(x) {
-  sqrt(crossprod(x))
-}
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # function for features selection algorithm 1
 FeatSelect<-function(lambdaB, X, Y, eps=1e-6, zeta=1e-8){
@@ -48,21 +29,16 @@ FeatSelect<-function(lambdaB, X, Y, eps=1e-6, zeta=1e-8){
   
   #--------------------------
   # t=0 initialization
-  # To avoid the storage of a high dimentional diagonal matrix, we vectorize as follows
   diag_D_0=c(rep(1, (ncol(X)+nrow(Y))))                # Initialize D as the identity matrix of dim the number nrow of W_true
-  invdiag_D_0=1/diag_D_0              			       # Digonal matrix representing the inverse of D_0
+  invdiag_D_0=1/diag_D_0              		       # Digonal matrix representing the inverse of D_0
   
   #--------------------------
-  #From the initialization above, we obtain the following updated value of W
   #t=1
-  W_1=round((invdiag_D_0*t(A))%*%solve(A%*%(invdiag_D_0*t(A)))%*%Y ,9)     #that is t=1
-  #Which leads to the following updated diagonal matrix D_1 and its inverse
+  W_1=round((invdiag_D_0*t(A))%*%solve(A%*%(invdiag_D_0*t(A)))%*%Y ,9)    
   l21W_1=c(rep(0, (ncol(X)+nrow(Y))))
   for(i in 1:(ncol(X)+nrow(Y))){
     l21W_1[i]=2*norm((W_1[i,]),type = "2")# + zeta
   }
-  #Implying the update of D as D_1 and its inverse at t=1 as:
-  #diag_D_1=1/l21W_1
   invdiag_D_1=l21W_1
   
   #--------------------------
@@ -72,32 +48,29 @@ FeatSelect<-function(lambdaB, X, Y, eps=1e-6, zeta=1e-8){
   for(i in 1:(ncol(X)+nrow(Y))){
     l21W_2[i]=2*norm((W_2[i,]),type = "2") #+ zeta
   }
-  #Implying the update of D as D_2 and its inverse at t=2 as:
-  #diag_D_2=1/l21W_2
   invdiag_D_2=l21W_2
   
   #--------------------------
-  #enter the loop for the iterative estimation of B matrix
   tcont=0
   while((sum(l21W_2)<=sum(l21W_1))==TRUE && (min(diag((A%*%(invdiag_D_0*t(A))))) > eps) && tcont<=itermax){
     W_1=W_2
-    l21W_1=l21W_2                                                                    #l21W_1 becomes l21W_2
-    invdiag_D_1=invdiag_D_2                                                          #this is like getting D_2
+    l21W_1=l21W_2                                                                    
+    invdiag_D_1=invdiag_D_2                                                          
     
-    W_2=round((invdiag_D_1*t(A))%*%solve(A%*%(invdiag_D_1*t(A)))%*%Y ,9)         #that is t=3
+    W_2=round((invdiag_D_1*t(A))%*%solve(A%*%(invdiag_D_1*t(A)))%*%Y ,9)       
     l21W_2=c(rep(0,(ncol(X)+nrow(Y))))
     for(i in 1:(ncol(X)+nrow(Y))){
-      l21W_2[i]=2*norm((W_2[i,]),type = "2") #+ zeta
+      l21W_2[i]=2*norm((W_2[i,]),type = "2") 
     }
     invdiag_D_2=l21W_2
     tcont <- sum(tcont, 1)
     
     print(tcont)
-    B_l21fs=round(W_1[1:ncol(X),],9)                         		       #extract the matrix Beta of estimated fixed effects parameter
-    
+    B_l21fs=round(W_1[1:ncol(X),],9)                         		   
   }
   return(B_l21fs)
 }
+
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Cross Validation in feature selection algorithm 1
@@ -163,83 +136,13 @@ CV_feat_sel = function(Y, X, lam, kfold=5) {
   return(list(lam = best_lam, min.error = error, avg.error = AVG, cv.error = CV_errors))
   
 }
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#function to compute the ridge estimate
-ridgeEst<-function(lambdaB, X, Y){
-Bhat_ridge= round(t(X)%*%solve(X%*%t(X) + lambdaB*diag(nrow(Y)))%*%Y ,9)
-return(Bhat_ridge)
-}
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Cross Validation for the ridge estimate
-CV_ridge = function(Y, X, lambdaB, kfold=5) {
-     
-     lambdaB = sort(lambdaB)
-    # initialize
-    CV_errors = array(0, c(length(lambdaB), kfold))
-    
-    # designate folds and shuffle -- ensures randomized folds
-        n = nrow(Y)
-        ind = sample(n)
-    
-    # parse data into folds and perform CV
-    
-    for (k in 1:kfold) {
-    
-            leave.out = ind[ (1 + floor((k - 1)*n/kfold)):floor(k*n/kfold) ]
-            
-    # training set
-    Y.train = Y[-leave.out,]
-    X.train = X[-leave.out,]
-    
-    # validation set
-    Y.valid = Y[leave.out,,drop=FALSE ]
-    X.valid = X[leave.out,,drop=FALSE ]
-    
-    #this centers the training and validation data, uncomment if needed
-    #Y.train_bar = apply(Y.train, 2, mean)
-    #Y.train = scale(Y.train, center = Y.train_bar, scale = FALSE)
-    #Y.valid = scale(Y.valid, center = Y.train_bar, scale = FALSE)
-    
-    #X.train_bar = apply(X.train, 2, mean)
-    #X.train = scale(X.train, center = X.train_bar, scale = FALSE)
-    #X.valid = scale(X.valid, center = X.train_bar, scale = FALSE)
-    
-    #X.train = scale(X.train, center = TRUE, scale = TRUE)
-    #X.valid = scale(X.valid, attr(X.train, "scaled:center"), attr(X.train, "scaled:scale"))
-      
-        
-            # loop over all tuning parameters
-        for (i in 1:length(lambdaB)) {
-                              
-            # compute the ridge regression matrix estimate with the training set
-            B_hat.train=ridgeEst(lambdaB[i], X.train, Y.train)   
-            
-            # compute the CV errors
-            CV_errors[i,k] = CV_errors[i,k] + mean((Y.valid-X.valid%*%B_hat.train)^2)
-        }
-        
-
-    }
-    
-    # determine optimal tuning parameters
-    AVG = apply(CV_errors, 1, mean)
-    best_lam = lambdaB[which.min(AVG)]
-    error = min(AVG)
-    
-    
-    # return best lambdaB and other meaningful values
-    return(list(lambdaB = best_lam, min.error = error, avg.error = AVG, cv.error = CV_errors))
-    
-}
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#function for the joint estimation for B and Omega 
+#function for multiple output regression (MOR)
 cmor<-function(lambda1, lambda2, lambda3, lambda4, X, Y, eps=1e-6, zeta=1e-8, tol.out=1e-6){
-  #Multiple output regression (MOR)
-  #----------------------
-  
-  # t=0 initialization
+
+# t=0 initialization
   
   Sigma_0=diag(ncol(Y))                           # Initialize Omega as the identity matrix of dim the number ncol of Y 
   Omega_0=diag(ncol(Y))                           # Initialize Sigma as the identity matrix of dim the number ncol of Y 
@@ -387,6 +290,7 @@ cmor<-function(lambda1, lambda2, lambda3, lambda4, X, Y, eps=1e-6, zeta=1e-8, to
 }
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for cross validation in the MOR
 CV_cmor<-function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
   lambda1 = sort(lambda1)
@@ -463,6 +367,7 @@ CV_cmor<-function(lambda1, lambda2, lambda3, lambda4, X, Y, kfold=5) {
 }
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for the estimation in mutiple ridge for B
 multi.ridge <- function(X,Y, lam){
 	q=dim(Y)[2]
@@ -491,19 +396,12 @@ multi.ridge.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
 	  Y.tr=Y[-foldind, ]
 	  X.te=X[foldind, ]
 	  Y.te=Y[foldind, ]
-	  #mtrx=apply(X.tr, 2, mean)
-	  #X.tr=scale(X.tr, scale=FALSE, center=mtrx)
-	  #X.te=scale(X.te, scale=FALSE, center=mtrx)
-	  #mtry=apply(Y.tr, 2, mean)
-	  #Y.tr=scale(Y.tr, scale=FALSE, center=mtry)
-	  #Y.te=scale(Y.te, scale=FALSE, center=mtry)	
 	  n.tr=dim(X.tr)[1]
-	  for(i in 1:length(lam.vec))
-    {  
+	  
+	  for(i in 1:length(lam.vec)){  
 	    lam=lam.vec[i]
 	  	bhatk = matrix(0, nrow=p, ncol=q)
-	    for(kk in 1:q)
-  	  {
+	    for(kk in 1:q){
   	    bhatk[,kk]=as.numeric(glmnet(x=X.tr, y=Y.tr[,kk], family="gaussian", alpha=0,lambda=lam, standardize=FALSE)$beta)
 		  }
 		  err.vec[i]=err.vec[i]+mean((Y.te-X.te%*%bhatk)^2)  
@@ -513,8 +411,6 @@ multi.ridge.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
   best.B = matrix(0, nrow=p, ncol=q)
 	best.i = which.min(err.vec)
 	lam=lam.vec[best.i]
-  #X=scale(X, scale=FALSE, center=TRUE)
-  #Y=scale(Y, scale=FALSE, center=TRUE)
 	for(kk in 1:q)
 	{
 	  best.B[,kk]=as.numeric(glmnet(x=X, y=Y[,kk], family="gaussian", alpha=0,lambda=lam, standardize=FALSE)$beta)
@@ -551,12 +447,7 @@ multi.lasso.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
 	  Y.tr=Y[-foldind, ]
 	  X.te=X[foldind, ]
 	  Y.te=Y[foldind, ]
-	  #mtrx=apply(X.tr, 2, mean)
-	  #X.tr=scale(X.tr, scale=FALSE, center=mtrx)
-	  #X.te=scale(X.te, scale=FALSE, center=mtrx)
-	  #mtry=apply(Y.tr, 2, mean)
-	  #Y.tr=scale(Y.tr, scale=FALSE, center=mtry)
-	  #Y.te=scale(Y.te, scale=FALSE, center=mtry)	
+	
 	  n.tr=dim(X.tr)[1]
 	  for(i in 1:length(lam.vec))
     {  
@@ -573,8 +464,6 @@ multi.lasso.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
   best.B = matrix(0, nrow=p, ncol=q)
 	best.i = which.min(err.vec)
 	lam=lam.vec[best.i]
-  #X=scale(X, scale=FALSE, center=TRUE)
-  #Y=scale(Y, scale=FALSE, center=TRUE)
 	for(kk in 1:q)
 	{
 	  best.B[,kk]=as.numeric(glmnet(x=X, y=Y[,kk], family="gaussian", alpha=1,lambda=lam, standardize=FALSE)$beta)
@@ -582,6 +471,7 @@ multi.lasso.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
   return(list(Bhat=best.B, lambda=lam.vec[best.i], cv.err=err.vec))
 }
 
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for the estimation in mutiple ridge for B
 multi.elasnet <- function(X,Y, lam){
@@ -595,6 +485,7 @@ multi.elasnet <- function(X,Y, lam){
   return(Bhat)
 }
 
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for cross validation in multiple ridge
 multi.elasnet.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
@@ -611,12 +502,7 @@ multi.elasnet.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
 	  Y.tr=Y[-foldind, ]
 	  X.te=X[foldind, ]
 	  Y.te=Y[foldind, ]
-	  #mtrx=apply(X.tr, 2, mean)
-	  #X.tr=scale(X.tr, scale=FALSE, center=mtrx)
-	  #X.te=scale(X.te, scale=FALSE, center=mtrx)
-	  #mtry=apply(Y.tr, 2, mean)
-	  #Y.tr=scale(Y.tr, scale=FALSE, center=mtry)
-	  #Y.te=scale(Y.te, scale=FALSE, center=mtry)	
+	
 	  n.tr=dim(X.tr)[1]
 	  for(i in 1:length(lam.vec))
     {  
@@ -633,8 +519,7 @@ multi.elasnet.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
   best.B = matrix(0, nrow=p, ncol=q)
 	best.i = which.min(err.vec)
 	lam=lam.vec[best.i]
-  #X=scale(X, scale=FALSE, center=TRUE)
-  #Y=scale(Y, scale=FALSE, center=TRUE)
+
 	for(kk in 1:q)
 	{
 	  best.B[,kk]=as.numeric(glmnet(x=X, y=Y[,kk], family="gaussian", alpha=.5,lambda=lam, standardize=FALSE)$beta)
@@ -643,13 +528,9 @@ multi.elasnet.cv <-function(X,Y, lam.vec, kfold=5, silent=TRUE){
 }
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for the joint estimation for B and Omega 
 JointEstim<-function(lambdaO, lambdaB, X, Y){
-#Joint estimation Algo 3
-#----------------------
 
   # t=0 initialization
   diag_C_0=c(rep(1, nrow(t(X))))                    # Initialize C as the identity matrix of dim the number nrow of W_true
@@ -685,7 +566,7 @@ JointEstim<-function(lambdaO, lambdaB, X, Y){
   tcontj=1
 
 while((sum(l21B_2)<=sum(l21B_1))==TRUE  && tcontj<=itermax){  
-#while(( (abs(sum(B_2 - B_1))>eps*abs(sum(B_ridge)))) && (tcontj<=itermax)){ 
+#while(( (abs(sum(B_2 - B_1))>eps*abs(sum(B_ridge)))) && (tcontj<=itermax)){   #A different convergence criteria
   l21B_1=l21B_2
   invdiag_C_1=invdiag_C_2
   S_1=S_2
@@ -709,6 +590,7 @@ while((sum(l21B_2)<=sum(l21B_1))==TRUE  && tcontj<=itermax){
   return(list(B_1, Omega_1, tcontj))
 }
 
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #function for cross validation in the joint estimation Algorithm 3
 CV_joint<-function(lambdaO, lambdaB, X, Y, kfold=5) {
@@ -851,8 +733,7 @@ for (l in 1:reps){
 #-----------------------------------------------------------------------------------
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Compare 1 l21 features selection with CV
-
-# The l21fs estimate with CV, our scaling factor
+# The l21fs estimate with CV
 listX.val.l21fs=list()
 listY.val.l21fs=list()
 listX.tr.l21fs=list()
@@ -884,7 +765,6 @@ listX.tr.multiridge=list()
 listY.tr.multiridge=list()
 listY.tr.multiridge_bar = list()
 Bhat_multiridge_Sim = list()
-#lambdaB.opt.multiridge=c()
 for (l in 1:reps) {
   
   listY[[l]]=scale(listY[[l]], scale = TRUE) 
@@ -909,7 +789,6 @@ listY.val.multilasso=list()
 listX.tr.multilasso=list()
 listY.tr.multilasso=list()
 Bhat_multilasso_Sim = list()
-#lambdaB.opt.multilasso=c()
 for (l in 1:reps) {
   
   listY[[l]]=scale(listY[[l]], scale = TRUE) 
@@ -935,7 +814,6 @@ listY.val.multielasnet=list()
 listX.tr.multielasnet=list()
 listY.tr.multielasnet=list()
 Bhat_multielasnet_Sim = list()
-#lambdaB.opt.multielasnet=c()
 for (l in 1:reps) {
   
   listY[[l]]=scale(listY[[l]], scale = TRUE) 
@@ -1016,7 +894,6 @@ lamL1.v=2^seq(-2,-1,1)#2^seq(-5,-2,1)
 lamL2.v=2^seq(-2,-1,1)#2^seq(-5,-2,1)
 L.remMap=remMap.CV(X=listX.tr.remMap[[l]], Y=listY.tr.remMap[[l]], lamL1.v, lamL2.v, C.m=NULL, fold=5, seed=123)
 pick=which.min(as.vector(L.remMap$ols.cv))
-#pick=which.min(as.vector(L.remMap$rss.cv))
 lamL1.pick[l]=L.remMap$l.index[1,pick]    ##find the optimal (LamL1,LamL2) based on the cv score
 lamL2.pick[l]=L.remMap$l.index[2,pick]
 ##fit the remMap model under the optimal (LamL1,LamL2).
@@ -1061,7 +938,7 @@ for (l in 1:reps) {
   
   ETA=list(list(X=listX.tr.MBayesB[[l]],model='BayesB'))
   for(i in 1:ncol(listY.tr.MBayesB[[l]])){
-    fm=BGLR(y=U[[l]][,i],ETA=ETA,verbose=F) #use more iterations!
+    fm=BGLR(y=U[[l]][,i],ETA=ETA,verbose=F) #use more iterations! if not converge. Here we can also set the Pi values if needed
     Bhat_MBayesB_Sim[[l]][,i]=fm$ETA[[1]]$b
   }
   
@@ -1093,7 +970,6 @@ for (l in 1:reps) {
   listX.val.l21joint[[l]]=listX[[l]][-c(1:n.val),]
   listY.val.l21joint[[l]]=listY[[l]][-c(1:n.val),]
   
-  #lambdaO=seq(2,3,.25) #lambdaB= seq(2,4,1)
   L.l21joint=CV_joint(lambdaO=2^seq(-11, -9, 1), lambdaB=seq(.3, .5, .1), listX.tr.l21joint[[l]], listY.tr.l21joint[[l]], kfold=5)
   lamO.opt.l21joint[l]=L.l21joint[[1]]
   lamB.opt.l21joint[l]=L.l21joint[[2]]
