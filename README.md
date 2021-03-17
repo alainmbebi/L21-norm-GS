@@ -30,7 +30,7 @@ R functions to implement genotype-phenotype association and genomic prediction u
 
 3. The folder data contains Brassica napus and wheat data sets from [MTGS](https://CRAN.R-project.org/package=MTGS) and [BLRG](https://CRAN.R-project.org/package=BGLR ) packages respectively.
 
-4. The file Example_run.R is an implementation example of all models/functions previously discussed, using the Brassica napus data set. 
+4. The file Example_run.R is an implementation example of all models/functions previously discussed, using simulated data set. 
 
 5. Notes
   * The MTGS.mlasso function is called from [MTGS R package](https://CRAN.R-project.org/package=MTGS) and compute the GEBVs using multivariate LASSO 
