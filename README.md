@@ -1,6 +1,6 @@
 # L21-norm-GS
 
-R functions to implement genotype-phenotype association and genomic prediction using ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression, as described in [(A. Mbebi et al. 2020)]().
+R functions to implement genotype-phenotype association and genomic prediction using ![equation](https://latex.codecogs.com/gif.latex?%5Ctext%7BL%7D_%7B21%7D)-norm regularized multivariate regression, as described in [(A. Mbebi et al. 2020)](https://doi.org/10.1093/bioinformatics/btab212).
 
 1. The folder code contains the following R scripts:
 
